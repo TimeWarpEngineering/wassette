@@ -159,7 +159,7 @@ This strategy ensures that:
 - Release activities are isolated to dedicated branches
 - All release-related changes are properly tracked and reviewed through PRs
 
-### Manual Release Process (If Automation Fails)
+## Manual Release Process (If Automation Fails)
 
 If the automated workflows fail, you can follow the manual process:
 
