@@ -190,11 +190,13 @@ If the automated workflows fail, you can follow the manual process:
    git push origin <branch_name>
    ```
 
-1. **After release is published, update package manifests manually**:
-   - Download checksums from the GitHub release page
-   - Update `Formula/wassette.rb` with new version and checksums
-   - Update `winget/Microsoft.Wassette.yaml` with new version, release date, and checksums
-   - Create a PR with these changes
+1. **After release is published, update package manifests**:
+   
+   1. Go to the [Actions tab](https://github.com/microsoft/wassette/actions/workflows/update-package-manifests.yml)
+   1. Click "Run workflow"
+   1. Enter the release tag name (e.g., `v0.4.0`)
+   1. Click "Run workflow"
+   1. The workflow will automatically create a PR with the updated manifests
 
 ## Releasing Example Component Images
 
