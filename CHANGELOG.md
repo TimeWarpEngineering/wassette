@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Component registry validation pipeline that automatically validates new or modified component URIs in `component-registry.json` on pull requests, ensuring all URIs can be successfully loaded by wassette before merging changes
 - Memory server example (`examples/memory-js`) demonstrating a knowledge graph storage system as a WebAssembly component, migrated from the MCP memory server with in-memory persistence, supporting entity and relation management, observations, and full-text search capabilities
 - arXiv research component (`examples/arxiv-rs`) in Rust that provides three functions: `search-papers` for searching arXiv with query, max results, date, and category filters; `download-paper` for downloading PDF files; and `read-paper` for fetching paper metadata and abstracts. The component uses the arXiv API and returns formatted markdown output
 - Comprehensive test coverage for component2json crate with example components added to testdata directory (fetch-rs, brave-search-rs, context7-rs under 1MB) to validate JSON schema generation across different language ecosystems
