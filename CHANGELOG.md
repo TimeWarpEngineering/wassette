@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Memory server example (`examples/memory-js`) demonstrating a knowledge graph storage system as a WebAssembly component, migrated from the MCP memory server with in-memory persistence, supporting entity and relation management, observations, and full-text search capabilities
 - arXiv research component (`examples/arxiv-rs`) in Rust that provides three functions: `search-papers` for searching arXiv with query, max results, date, and category filters; `download-paper` for downloading PDF files; and `read-paper` for fetching paper metadata and abstracts. The component uses the arXiv API and returns formatted markdown output
 - Comprehensive test coverage for component2json crate with example components added to testdata directory (fetch-rs, brave-search-rs, context7-rs under 1MB) to validate JSON schema generation across different language ecosystems
 - Added `wassette inspect` subcommand for debugging WebAssembly components, displaying their JSON schema for inputs and outputs. This provides a convenient way to inspect component metadata without loading them into the MCP server
@@ -57,7 +58,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Updated README.md to reference the new dedicated installation guide for complete installation instructions
 - Removed separate homebrew.md, nix.md, and winget.md pages to eliminate duplication; all installation content is now consolidated in installation.md
 - Added tabbed interface for installation instructions organized by platform (Linux, macOS, Windows, Nix) using mdbook-tabs preprocessor
-- Updated README.md, docs/faq.md, and RELEASE.md to include all 9 examples in the examples directory: brave-search-rs, context7-rs, eval-py, fetch-rs, filesystem-rs, get-open-meteo-weather-js, get-weather-js, gomodule-go, and time-server-js
+- Updated README.md, docs/faq.md, and RELEASE.md to include all examples in the examples directory: brave-search-rs, context7-rs, eval-py, fetch-rs, filesystem-rs, get-open-meteo-weather-js, get-weather-js, gomodule-go, memory-js, and time-server-js
 - Configure `prepare-release` workflow to use `RELEASE_TOKEN` secret for creating pull requests, allowing custom PAT authentication
 
 ### Security
