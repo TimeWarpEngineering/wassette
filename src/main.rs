@@ -608,11 +608,23 @@ async fn main() -> Result<()> {
 
                         let router = axum::Router::new().nest_service("/mcp", service);
                         let tcp_listener = tokio::net::TcpListener::bind(&bind_address).await?;
-                        let _ = axum::serve(tcp_listener, router)
-                            .with_graceful_shutdown(async {
-                                tokio::signal::ctrl_c().await.unwrap()
-                            })
-                            .await;
+
+                        // Spawn the server in a background task
+                        let server_handle = tokio::spawn(async move {
+                            axum::serve(tcp_listener, router)
+                                .with_graceful_shutdown(async {
+                                    tokio::signal::ctrl_c().await.unwrap()
+                                })
+                                .await
+                        });
+
+                        tracing::info!(
+                            "MCP server is ready and listening on http://{}/mcp",
+                            bind_address
+                        );
+
+                        // Wait for the server task to complete
+                        let _ = server_handle.await;
                     }
                     Transport::Sse => {
                         tracing::info!(
@@ -622,6 +634,10 @@ async fn main() -> Result<()> {
                         let ct = SseServer::serve(bind_address.parse().unwrap())
                             .await?
                             .with_service(move || server.clone());
+                        tracing::info!(
+                            "MCP server is ready and listening on http://{}/sse",
+                            bind_address
+                        );
 
                         tokio::signal::ctrl_c().await?;
                         ct.cancel();
