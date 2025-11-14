@@ -165,11 +165,69 @@ index=wassette tool_name=* | stats count by tool_name
 
 ### Health Checks
 
-Monitor Wassette's health by checking:
+When running with StreamableHttp transport, Wassette provides health and readiness endpoints:
 
-1. **Process running**: Ensure the wassette process is active
-2. **HTTP endpoint**: For SSE/HTTP transports, verify the endpoint responds
-3. **Log activity**: Monitor for error patterns in logs
+#### Endpoints
+
+- **`/health`**: Returns HTTP 200 OK if the server is running
+- **`/ready`**: Returns HTTP 200 with JSON `{"status":"ready"}` when the server is ready to accept requests
+- **`/info`**: Returns version and build information as JSON
+
+**Example Usage:**
+
+```bash
+# Check if server is running
+curl -f http://localhost:9001/health
+
+# Check readiness
+curl http://localhost:9001/ready
+
+# Get version and build info
+curl http://localhost:9001/info | jq .
+```
+
+**Example Response from `/info`:**
+```json
+{
+  "version": "0.3.5",
+  "build_info": "0.3.5 version.BuildInfo{RustVersion:\"1.90.0\", BuildProfile:\"release\", BuildStatus:\"Clean\", GitTag:\"v0.3.5\", Version:\"abc1234\", GitRevision:\"abc1234\"}"
+}
+```
+
+*Note: The version and build_info fields reflect the actual build and may differ from this example.*
+
+#### Integration with Container Orchestration
+
+Use health endpoints with Docker, Kubernetes, or other orchestration platforms:
+
+**Docker:**
+```bash
+docker run --rm -p 9001:9001 \
+  --health-cmd="curl -f http://localhost:9001/health || exit 1" \
+  --health-interval=30s \
+  --health-timeout=10s \
+  --health-retries=3 \
+  wassette:latest
+```
+
+**Kubernetes:**
+```yaml
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 9001
+  initialDelaySeconds: 10
+  periodSeconds: 30
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 9001
+  initialDelaySeconds: 5
+  periodSeconds: 10
+```
+
+**Note**: Health endpoints are only available with `--streamable-http` transport. SSE transport (`--sse`) also uses HTTP but is designed solely for event streaming and does not provide a general HTTP request/response interface. For stdio or SSE transports, monitor the process status instead.
 
 ## Performance Tuning
 

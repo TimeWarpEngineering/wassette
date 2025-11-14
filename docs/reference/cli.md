@@ -87,8 +87,9 @@ wassette serve --sse
 # Use custom bind address
 wassette serve --sse --bind-address 0.0.0.0:8080
 
-# Use environment variable for bind address
-export WASSETTE_BIND_ADDRESS=192.168.1.100:9001
+# Use environment variables for bind address
+export PORT=8080
+export BIND_HOST=0.0.0.0
 wassette serve --sse
 ```
 
@@ -641,9 +642,19 @@ component_dir = "/opt/wassette/components"
 
 - **`WASSETTE_CONFIG_FILE`**: Override the default configuration file location
 - **`WASSETTE_COMPONENT_DIR`**: Override the default component storage location
-- **`WASSETTE_BIND_ADDRESS`**: Override the default bind address for HTTP-based transports
+- **`PORT`**: Set the port number for HTTP-based transports (default: 9001)
+- **`BIND_HOST`**: Set the host address to bind to (default: 127.0.0.1)
 - **`XDG_CONFIG_HOME`**: Base directory for configuration files (Linux/macOS)
 - **`XDG_DATA_HOME`**: Base directory for data storage (Linux/macOS)
+
+#### Bind Address Configuration
+
+The bind address can be configured via multiple methods with the following precedence:
+
+1. CLI option `--bind-address` (highest priority)
+2. Configuration file `bind_address` field
+3. PORT and BIND_HOST environment variables (used as defaults when above are not set)
+4. Built-in defaults: 127.0.0.1:9001 (or 0.0.0.0:9001 in Docker)
 
 ### Component Storage
 
